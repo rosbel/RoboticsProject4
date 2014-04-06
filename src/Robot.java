@@ -77,7 +77,7 @@ public class Robot {
 		//Equations from http://rossum.sourceforge.net/papers/DiffSteer/
 		double movementsum = (rightwheelmovement + leftwheelmovement);
 		double movementdiff = (rightwheelmovement - leftwheelmovement);
-		//if(movementdiff == 0) movementdiff = 1;
+
 		double newx = Math.round(x + (((b * movementsum) / (2 * movementdiff)) * (Math.sin((movementdiff / b) + orientation) - Math.sin(orientation))));
 		double newy = y - ((b * movementsum) / (2 * movementdiff)) * (Math.cos((movementdiff / b) + orientation) - Math.cos(orientation));
 		double neworientation = (movementdiff / b) + orientation;

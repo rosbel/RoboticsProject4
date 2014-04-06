@@ -32,7 +32,7 @@ public class MainWindow extends javax.swing.JFrame {
 		 for(int i=0; i< lights.size(); i++){
 			 lights.elementAt(i).draw(g2);
 		 }
-		 for(int j=0; j< lights.size(); j++){
+		 for(int j=0; j< robots.size(); j++){
 			 robots.elementAt(j).draw(g2);
 		 }
 	   }
@@ -157,6 +157,20 @@ public class MainWindow extends javax.swing.JFrame {
 	    		}
 	    		repaint();
 	    		//System.out.println("MOVING");
+	    	}
+	    	else if(code == KeyEvent.VK_R)
+	    	{
+		        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
+	    		Robot newrobot = new Robot(MouseInfo.getPointerInfo().getLocation().getX(),MouseInfo.getPointerInfo().getLocation().getY(), 0);
+	    		newrobot.draw(g2);
+	    		robots.add(newrobot);
+	    	}
+	    	else if(code == KeyEvent.VK_L)
+	    	{
+		        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
+				Light newlight = new Light((int)MouseInfo.getPointerInfo().getLocation().getX(), (int)MouseInfo.getPointerInfo().getLocation().getY());
+				newlight.draw(g2);
+				lights.add(newlight);
 	    	}
 		}
 

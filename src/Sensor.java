@@ -18,7 +18,7 @@ public class Sensor {
 	
 	void draw(Graphics2D g2){
 		g2.setColor(Color.black);
-		g2.drawArc((int)x, (int)y, 20, 20, (int) orientation, 180);
+		//g2.drawArc((int)x, (int)y, 20, 20, (int) orientation, 180);
 		
 	}
 	
