@@ -91,7 +91,7 @@ public class MainWindow extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
 
-        paintCanvasPanel.setBackground(new Color(255, 255, 255)); // background color
+        paintCanvasPanel.setBackground(new Color(155, 155, 155)); // background color
         paintCanvasPanel.setFocusable(true); //set focus for keyboard
         
         javax.swing.GroupLayout paintCanvasPanelLayout = new javax.swing.GroupLayout(paintCanvasPanel);
