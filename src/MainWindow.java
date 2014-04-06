@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -49,24 +49,38 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     private class mouseEvent 
-    		implements MouseMotionListener{
+	implements MouseListener{
 
-		@Override
-		public void mouseDragged(MouseEvent evt) {
-			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			int height = screenSize.height;
-			int mouseX = evt.getX();
-	        int mouseY = evt.getY();
-	    	repaint();			
-		}
-
-		@Override
-		public void mouseMoved(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-    	
-    }
+	@Override
+	public void mouseClicked(MouseEvent evt) {
+		int mouseX = evt.getX();
+	    int mouseY = evt.getY();
+	    int button = evt.getButton();
+	    Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
+	    //Add robot if left click
+	    if (button == 1)
+	    {
+	    	System.out.println("Left Click Detected!");
+	    	Robot newrobot = new Robot(mouseX, mouseY, 0);
+			newrobot.draw(g2);
+			robots.add(newrobot);
+	    }
+	    //Add light source if right click
+	    else if (button == 3) {
+	    	System.out.println("Right Click Detected!");
+	    	Light newlight = new Light(mouseX, mouseY);
+			newlight.draw(g2);
+			lights.add(newlight);
+	    }
+		//repaint();			
+	}
+	
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	
+	}
 
     public static void main(String args[]) {
     	
@@ -99,7 +113,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
         paintCanvasPanel = new javax.swing.JPanel();
         mouseListener = new mouseEvent();
-        paintCanvasPanel.addMouseMotionListener(mouseListener);
+        paintCanvasPanel.addMouseListener(mouseListener);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
