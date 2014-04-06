@@ -15,7 +15,7 @@ public class Robot {
 	Sensor rightsensor;
     private Path2D path;
     private AffineTransform rotation;
-    double k11, k12, k21, k22;
+    double k11 =1 , k12 = 0.1, k21 = 1, k22 = 0.1;
     
 	
 	Robot(double initx, double inity, double initorientation){
@@ -39,7 +39,7 @@ public class Robot {
 		   g2.fill(path);
 		   
 		   //Then draw the sensors !NEED TO CALCULATE SENSOR POSITIONS!
-		   leftsensor.setCoord(x, y, (orientation * 180/Math.PI) + 180);
+		   leftsensor.setCoord(x + 20, y, (orientation * 180/Math.PI) + 180);
 		   leftsensor.draw(g2);
 		   rightsensor.setCoord(x, y, (orientation * 180/Math.PI) + 180);
 		   rightsensor.draw(g2);
@@ -57,6 +57,11 @@ public class Robot {
 		double leftwheelmovement = k11 * leftsensor.reading + k12 * rightsensor.reading;
 		double rightwheelmovement = k21 * rightsensor.reading + k22 * leftsensor.reading;
 		
+		System.out.println("Right wheel movement: " + rightwheelmovement);
+		System.out.println("Left wheel movement: " + leftwheelmovement);
+		System.out.println("Right sensor reading:  " + rightsensor.reading);
+		System.out.println("Left sensor reading: " + leftsensor.reading);
+		
 		//b is distance between wheels, t is time but set to 1 because time step should be the same each time
 		int b = 5; int t=1;
 		
@@ -64,8 +69,9 @@ public class Robot {
 		//Equations from http://rossum.sourceforge.net/papers/DiffSteer/
 		double movementsum = (rightwheelmovement + leftwheelmovement);
 		double movementdiff = (rightwheelmovement - leftwheelmovement);
-		double newx = x + ((b * movementsum) / (2 * movementdiff)) * (Math.sin(((t * movementdiff) / b) + orientation) - Math.sin(orientation));
-		double newy = y - ((b * movementsum) / (2 * movementdiff)) * (Math.cos(((t * movementdiff) / b) + orientation) - Math.cos(orientation));
+		//if(movementdiff == 0) movementdiff = 1;
+		double newx = Math.round(x + (((b * movementsum) / (2 * movementdiff)) * (Math.sin((movementdiff / b) + orientation) - Math.sin(orientation))));
+		double newy = y - ((b * movementsum) / (2 * movementdiff)) * (Math.cos((movementdiff / b) + orientation) - Math.cos(orientation));
 		double neworientation = (movementdiff / b) + orientation;
 		
 		//Set new values
@@ -73,4 +79,13 @@ public class Robot {
 		y = newy;
 		orientation = neworientation;
 	}
+	
+	void setKvalues(double newk11, double newk12, double newk21, double newk22)
+	{
+		k11 = newk11;
+		k12 = newk12;
+		k21 = newk21;
+		k22 = newk22;
+	}
 }
+	

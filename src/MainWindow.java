@@ -5,6 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.Vector;
@@ -19,21 +23,28 @@ public class MainWindow extends javax.swing.JFrame {
 	JLabel label;	  
 	Vector<Robot> robots = new Vector<Robot>();
 	Vector<Light> lights = new Vector<Light>();
-	
+    private keyEvent keyListener = new keyEvent();
 	
 	  @Override
 	  public void paint(Graphics g) {
 		 super.paintComponents(g);
-	        Robot newrobot = new Robot(MouseInfo.getPointerInfo().getLocation().getX(),MouseInfo.getPointerInfo().getLocation().getY(), 6);
-	        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
-	        newrobot.draw(g2);
-	        Light light = new Light(100,100);
-	        light.draw(g2);
-	        
-	    }
+	     Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
+		 for(int i=0; i< lights.size(); i++){
+			 lights.elementAt(i).draw(g2);
+		 }
+		 for(int j=0; j< lights.size(); j++){
+			 robots.elementAt(j).draw(g2);
+		 }
+	   }
 
     public MainWindow() {
         initComponents();
+        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
+        Robot newrobot = new Robot(MouseInfo.getPointerInfo().getLocation().getX(),MouseInfo.getPointerInfo().getLocation().getY(), 6);
+        robots.add(newrobot);
+        Light light = new Light(100,100);
+        light.draw(g2);
+        lights.add(light);
         this.setTitle("");
     }
     
@@ -92,7 +103,7 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
-
+        paintCanvasPanel.addKeyListener(keyListener);
         paintCanvasPanel.setBackground(new Color(155, 155, 155)); // background color
         paintCanvasPanel.setFocusable(true); //set focus for keyboard
         
@@ -128,5 +139,41 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         pack();
-    }                      
+    }     
+    
+    private class keyEvent implements KeyListener, ActionListener
+    {
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int code = e.getKeyCode();
+	    	if (code == KeyEvent.VK_SPACE)
+	    	{
+		        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
+	    		for(int i=0; i<robots.size(); i++)
+	    		{
+	    			robots.elementAt(i).update(lights);
+	    			robots.elementAt(i).draw(g2);
+	    		}
+	    		repaint();
+	    		//System.out.println("MOVING");
+	    	}
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+    }
 }

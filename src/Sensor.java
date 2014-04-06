@@ -34,10 +34,9 @@ public class Sensor {
 		double intensitysum = 0;
 		for(int i=0; i< lights.size(); i++)
 		{
-			double temp = Math.round(Math.sqrt(((int)lights.elementAt(i).x - (int)x)^2 + ((int)lights.elementAt(i).y - (int)y)^2));
+			double temp = Math.round(Math.sqrt(Math.pow((lights.elementAt(i).x - x),2) + Math.pow((lights.elementAt(i).y - y),2)));
 			intensitysum += temp;
 		}
 		reading = intensitysum;
-		System.out.println(reading);
 	}
 }
