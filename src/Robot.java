@@ -2,6 +2,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
 import java.util.Vector;
 
 public class Robot {
@@ -15,7 +16,7 @@ public class Robot {
 	Sensor rightsensor;
     private Path2D path;
     private AffineTransform rotation;
-    double k11 =1 , k12 = 0.1, k21 = 1, k22 = 0.1;
+    double k11 =1000 , k12 = 1, k21 = 1000, k22 = 1;
     
 	
 	Robot(double initx, double inity, double initorientation){
@@ -37,11 +38,18 @@ public class Robot {
 		   Rectangle rect1 = new Rectangle(0, 0, 64, 64);
 		   path = new Path2D.Double(rect1, rotation);
 		   g2.fill(path);
-		   
+
+		   PathIterator bounderiter = path.getPathIterator(null);
+		   float[] coords1 = new float[2];
+		   float[] coords2 = new float[2];
+		   bounderiter.next();
+		   bounderiter.currentSegment(coords1);
+		   bounderiter.next();
+		   bounderiter.currentSegment(coords2);
 		   //Then draw the sensors !NEED TO CALCULATE SENSOR POSITIONS!
-		   leftsensor.setCoord(x + 20, y, (orientation * 180/Math.PI) + 180);
+		   leftsensor.setCoord(coords1[0], coords1[1], (orientation * (180/Math.PI)));
 		   leftsensor.draw(g2);
-		   rightsensor.setCoord(x, y, (orientation * 180/Math.PI) + 180);
+		   rightsensor.setCoord(coords2[0], coords2[1], (orientation * (180/Math.PI)));
 		   rightsensor.draw(g2);
 		   
 		   //Then draw the wheels?
