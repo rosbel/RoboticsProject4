@@ -12,6 +12,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,6 +26,8 @@ public class MainWindow extends javax.swing.JFrame {
 	Vector<Robot> robots = new Vector<Robot>();
 	Vector<Light> lights = new Vector<Light>();
     private keyEvent keyListener = new keyEvent();
+    long timerInterval = 250;
+    Timer timer = new Timer();
 	
 	  @Override
 	  public void paint(Graphics g) {
@@ -81,6 +85,20 @@ public class MainWindow extends javax.swing.JFrame {
 	public void mouseExited(MouseEvent e) {}
 	
 	}
+    
+    MyTask task = new MyTask();
+    class MyTask extends TimerTask {
+        public void run() {
+    		System.out.println("Timer - I'm pressing the button for you!");
+    		Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
+    		for(int i=0; i<robots.size(); i++)
+    		{
+    			robots.elementAt(i).update(lights);
+    			robots.elementAt(i).draw(g2);
+    		}
+    		repaint();
+        }
+    }
 
     public static void main(String args[]) {
     	
@@ -163,13 +181,14 @@ public class MainWindow extends javax.swing.JFrame {
 			int code = e.getKeyCode();
 	    	if (code == KeyEvent.VK_SPACE)
 	    	{
-		        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
+	    		timer.scheduleAtFixedRate(task, 0, timerInterval);
+		        /*Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
 	    		for(int i=0; i<robots.size(); i++)
 	    		{
 	    			robots.elementAt(i).update(lights);
 	    			robots.elementAt(i).draw(g2);
 	    		}
-	    		repaint();
+	    		repaint();*/
 	    		//System.out.println("MOVING");
 	    	}
 	    	else if(code == KeyEvent.VK_R)
