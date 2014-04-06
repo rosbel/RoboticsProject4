@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -23,10 +24,13 @@ public class MainWindow extends javax.swing.JFrame {
 	  @Override
 	  public void paint(Graphics g) {
 		 super.paintComponents(g);
-	        Robot newrobot = new Robot(200,250, 2.5);
+	        Robot newrobot = new Robot(MouseInfo.getPointerInfo().getLocation().getX(),MouseInfo.getPointerInfo().getLocation().getY(), 6);
 	        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
 	        newrobot.draw(g2);
-	        
+	        Light light = new Light(0,200);
+	        lights.add(light);
+	        light.draw(g2);
+	        newrobot.leftsensor.calcReading(lights);
 	  }
 
     public MainWindow() {
@@ -55,6 +59,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
+    	
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
