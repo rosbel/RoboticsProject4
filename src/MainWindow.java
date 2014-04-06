@@ -27,11 +27,10 @@ public class MainWindow extends javax.swing.JFrame {
 	        Robot newrobot = new Robot(MouseInfo.getPointerInfo().getLocation().getX(),MouseInfo.getPointerInfo().getLocation().getY(), 6);
 	        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
 	        newrobot.draw(g2);
-	        Light light = new Light(0,200);
-	        lights.add(light);
+	        Light light = new Light(100,100);
 	        light.draw(g2);
-	        newrobot.leftsensor.calcReading(lights);
-	  }
+	        
+	    }
 
     public MainWindow() {
         initComponents();
@@ -94,7 +93,7 @@ public class MainWindow extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
 
-        paintCanvasPanel.setBackground(new Color(255, 255, 255)); // background color
+        paintCanvasPanel.setBackground(new Color(155, 155, 155)); // background color
         paintCanvasPanel.setFocusable(true); //set focus for keyboard
         
         javax.swing.GroupLayout paintCanvasPanelLayout = new javax.swing.GroupLayout(paintCanvasPanel);

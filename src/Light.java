@@ -2,22 +2,34 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 
-public class Light {
-	double x;
-	double y;
-	
-	Light(double initx, double inity)
-	{
-		x = initx;
-		y = inity;
-	}
-	
-	void draw(Graphics2D g2)
-	{
-		g2.drawOval((int)x, (int)y, 20, 20);
-		g2.setColor(Color.yellow);
-	    g2.fillOval((int)x, (int)y, 20, 20);
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
+import java.awt.RadialGradientPaint;
+import java.awt.geom.Point2D;
 
+public class Light {
+	public int x;
+	public int y;
+	public int radius;
+	public int intensity;
+	Color color;
+
+	Light(int X, int Y)
+	{
+		x = X;
+		y = Y;
+		radius = 13;
+		color = Color.WHITE;
+		intensity = 255;
 	}
 	
+	public void draw(Graphics2D g)
+	{
+		g.setColor(color);
+		g.drawOval(this.x,this.y,this.radius,this.radius);
+		g.fillOval(this.x,this.y,this.radius,this.radius);
+	}
 }
