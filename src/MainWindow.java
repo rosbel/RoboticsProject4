@@ -23,9 +23,10 @@ public class MainWindow extends javax.swing.JFrame {
 	  @Override
 	  public void paint(Graphics g) {
 		 super.paintComponents(g);
-	        Robot newrobot = new Robot(100,100, 0);
+	        Robot newrobot = new Robot(200,250, 2.5);
 	        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
 	        newrobot.draw(g2);
+	        
 	  }
 
     public MainWindow() {
