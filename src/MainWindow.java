@@ -26,6 +26,8 @@ public class MainWindow extends javax.swing.JFrame {
 	        Robot newrobot = new Robot(200,250, 2.5);
 	        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
 	        newrobot.draw(g2);
+	        Light light = new Light(100,100);
+	        light.draw(g2);
 	        
 	  }
 
