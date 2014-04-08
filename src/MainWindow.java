@@ -57,17 +57,58 @@ public class MainWindow extends javax.swing.JFrame {
 
 	@Override
 	public void mouseClicked(MouseEvent evt) {
+		double x;
+		double y;
 		int mouseX = evt.getX();
 	    int mouseY = evt.getY();
 	    int button = evt.getButton();
 	    Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
+
+		
 	    //Add robot if left click
 	    if (button == 1)
 	    {
 	    	System.out.println("Left Click Detected!");
-	    	Robot newrobot = new Robot(mouseX, mouseY, 0);
-			newrobot.draw(g2);
-			robots.add(newrobot);
+
+    		if(!MainWindow.this.xTextField.getText().equals("X") && !MainWindow.this.yTextField.getText().equals("Y"))
+    		{
+    			try
+    			{
+        			x = Integer.valueOf(MainWindow.this.xTextField.getText());
+        			y = Integer.valueOf(MainWindow.this.yTextField.getText());
+    			}
+    			catch(NumberFormatException nfe)
+    			{
+    				x = mouseX;
+    				y = mouseY;
+    			}
+
+    		}
+    		else
+    		{
+    			x = mouseX;
+    			y = mouseY;
+    		}
+    		Robot newrobot = new Robot(x,y,0);
+    		
+    		if(!MainWindow.this.k1.getText().equals("k1") && !MainWindow.this.k2.getText().equals("k2") && !MainWindow.this.k3.getText().equals("k3") && !MainWindow.this.k4.getText().equals("k4"))
+    		{
+    			try
+    			{
+	    			double k1 = Double.valueOf(MainWindow.this.k1.getText());
+	    			double k2 = Double.valueOf(MainWindow.this.k2.getText());
+	    			double k3 = Double.valueOf(MainWindow.this.k3.getText());
+	    			double k4 = Double.valueOf(MainWindow.this.k4.getText());
+	    			newrobot.setKvalues(k1, k2, k3, k4);
+    			}catch(NumberFormatException nfe)
+    			{
+    				System.out.println("K Values are not numbers");
+    			}
+    		}
+    		
+    		newrobot.draw(g2);
+    		
+    		robots.add(newrobot);
 	    }
 	    //Add light source if right click
 	    else if (button == 3) {
@@ -127,23 +168,51 @@ public class MainWindow extends javax.swing.JFrame {
     }
     private javax.swing.JPanel paintCanvasPanel;
     private mouseEvent mouseListener;
+    private javax.swing.JTextField k1;
+    private javax.swing.JTextField k2;
+    private javax.swing.JTextField k3;
+    private javax.swing.JTextField k4;
+    private javax.swing.JTextField xTextField;
+    private javax.swing.JTextField yTextField;
     
     private void initComponents() {
         paintCanvasPanel = new javax.swing.JPanel();
         mouseListener = new mouseEvent();
         paintCanvasPanel.addMouseListener(mouseListener);
+        
+        k1 = new javax.swing.JTextField();
+        k2 = new javax.swing.JTextField();
+        k3 = new javax.swing.JTextField();
+        k4 = new javax.swing.JTextField();
+        xTextField = new javax.swing.JTextField();
+        yTextField = new javax.swing.JTextField();
+        
+        k1.setText("k1");
+
+        k2.setText("k2");
+
+        k3.setText("k3");
+
+        k4.setText("k4");
+
+        xTextField.setText("X");
+
+        yTextField.setText("Y");
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
         paintCanvasPanel.addKeyListener(keyListener);
         paintCanvasPanel.setBackground(new Color(155, 155, 155)); // background color
         paintCanvasPanel.setFocusable(true); //set focus for keyboard
+
+       
         
         javax.swing.GroupLayout paintCanvasPanelLayout = new javax.swing.GroupLayout(paintCanvasPanel);
         paintCanvasPanel.setLayout(paintCanvasPanelLayout);
         paintCanvasPanelLayout.setHorizontalGroup(
             paintCanvasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
+            .addGap(0, 650, Short.MAX_VALUE)
         );
         paintCanvasPanelLayout.setVerticalGroup(
             paintCanvasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,19 +223,41 @@ public class MainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(paintCanvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addComponent(paintCanvasPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(k1)
+                            .addComponent(k2)
+                            .addComponent(k3)
+                            .addComponent(k4))
+                        .addComponent(xTextField))
+                    .addComponent(yTextField))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(paintCanvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)))
+                        .addGap(38, 38, 38)
+                        .addComponent(k1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(k2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(k3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(k4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(xTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(yTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -194,8 +285,30 @@ public class MainWindow extends javax.swing.JFrame {
 	    	else if(code == KeyEvent.VK_R)
 	    	{
 		        Graphics2D g2 = (Graphics2D) paintCanvasPanel.getGraphics();
-	    		Robot newrobot = new Robot(MouseInfo.getPointerInfo().getLocation().getX(),MouseInfo.getPointerInfo().getLocation().getY(), 0);
+	    		double k1 = Double.valueOf(MainWindow.this.k1.getText());
+	    		double k2 = Double.valueOf(MainWindow.this.k2.getText());
+	    		double k3 = Double.valueOf(MainWindow.this.k3.getText());
+	    		double k4 = Double.valueOf(MainWindow.this.k4.getText());
+	    		
+	    		double x;
+	    		double y;
+	    		if(MainWindow.this.xTextField.getText().length() > 0 && MainWindow.this.yTextField.getText().length() > 0)
+	    		{
+	    			x = Integer.valueOf(MainWindow.this.xTextField.getText());
+	    			y = Integer.valueOf(MainWindow.this.yTextField.getText());
+	    		}
+	    		else
+	    		{
+	    			x = MouseInfo.getPointerInfo().getLocation().getX();
+	    			y = MouseInfo.getPointerInfo().getLocation().getY();
+	    		}
+	    		Robot newrobot = new Robot(x,y,0);
+	    		
+	    		if(MainWindow.this.k1.getText().length() > 0 && MainWindow.this.k2.getText().length() > 0 && MainWindow.this.k3.getText().length() > 0 && MainWindow.this.k4.getText().length() > 0)
+	    			newrobot.setKvalues(k1, k2, k3, k4);
+	    		
 	    		newrobot.draw(g2);
+	    		
 	    		robots.add(newrobot);
 	    	}
 	    	else if(code == KeyEvent.VK_L)
